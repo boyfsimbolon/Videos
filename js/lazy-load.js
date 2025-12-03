@@ -44,8 +44,7 @@
     // Preload critical images
     function preloadCriticalImages() {
         const criticalImages = [
-            'images/logo.png'
-            // Add more critical images here
+            // Add critical images here if needed
         ];
 
         criticalImages.forEach(function(src) {

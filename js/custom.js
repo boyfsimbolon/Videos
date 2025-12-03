@@ -1,7 +1,19 @@
+// Hide loader with timeout fallback
+$(document).ready(function() {
+	"use strict";
+	
+	// Hide loader after max 3 seconds if window.load doesn't fire
+	setTimeout(function() {
+		$('#loader').fadeOut('slow');
+	}, 3000);
+});
+
 $(window).load(function(){
 
 	"use strict";
 	
+	// Hide loader immediately when page loads
+	$('#loader').fadeOut('slow');
 
 	/* ========================================================== */
 	/*   Popup-Gallery                                            */
@@ -124,9 +136,11 @@ $(window).load(function(){
 			
 	var revapi2;
 	tpj(document).ready(function() {
-		if(tpj("#rev_slider_2_1").revolution == undefined){
-			revslider_showDoubleJqueryError("#rev_slider_2_1");
-		}else{
+		if(tpj("#rev_slider_2_1").length > 0 && tpj("#rev_slider_2_1").revolution == undefined){
+			console.warn("Revolution Slider plugin not loaded properly");
+			return;
+		}
+		if(tpj("#rev_slider_2_1").length > 0 && tpj.fn.revolution){
 			revapi2 = tpj("#rev_slider_2_1").show().revolution({
 				sliderType:"carousel",
 				jsFileLocation:"../../revolution/js/",
