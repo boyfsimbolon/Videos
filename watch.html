@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="watch film, streaming, movie screening, online premiere">
+    <meta name="description" content="Watch our exclusive short film online. Experience the full movie from the comfort of your home.">
+
+    <title>Tonton Film - Antara Waktu, Lampu dan Mimpi</title>
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="js/jquery-1.11.3.min.js" as="script">
+    <link rel="preload" href="css/style.css" as="style">
+    <link rel="preload" href="images/logo.png" as="image">
+    
+    <!-- Loading Bootstrap -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Loading Template CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style-magnific-popup.css" rel="stylesheet">
+    
+    <!-- Fonts -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/icons-main.css" rel="stylesheet">
+    <link href="css/icons-helper.css" rel="stylesheet">
+    
+    <!-- Google Fonts - Optimized -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Favicon -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+
+    <!-- Custom Film CSS -->
+    <link href="css/film-custom.css" rel="stylesheet">
+
+    <style>
+        /* Custom styles for watch page */
+        .watch-hero-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 150px 0 80px 0;
+            position: relative;
+        }
+
+        .video-player-container {
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            margin: 40px 0;
+        }
+
+        .video-player-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-player-wrapper video,
+        .video-player-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-controls-info {
+            background: #1a1a1a;
+            padding: 30px;
+            color: #fff;
+        }
+
+        .watch-notice {
+            background: linear-gradient(135deg, #f4c430 0%, #d4a017 100%);
+            padding: 20px 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            color: #000;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .watch-notice i {
+            font-size: 24px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .film-info-box {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .film-info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .film-info-item:last-child {
+            border-bottom: none;
+        }
+
+        .share-section {
+            text-align: center;
+            padding: 40px 0;
+            background: #f8f8f8;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quality-selector {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .quality-selector button {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            padding: 8px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quality-selector button:hover,
+        .quality-selector button.active {
+            background: #f4c430;
+            color: #000;
+            border-color: #f4c430;
+        }
+
+        .watch-stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .watch-stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .watch-stat-number {
+            font-size: 36px;
+            font-weight: 900;
+            color: #f4c430;
+            display: block;
+        }
+
+        .watch-stat-label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .watch-hero-section {
+                padding: 120px 0 60px 0;
+            }
+            
+            .video-controls-info {
+                padding: 20px;
+            }
+        }
+    </style>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+    
+    <!--headerIncludes-->
+    
+</head>
+<body>
+    
+    <!--begin borders -->
+    <div id="border-left"></div>
+    <div id="border-right"></div>
+    <!--end borders -->
+    
+	<!--begin loader -->
+    <div id="loader">
+    	<div class="sk-three-bounce">
+            <div class="sk-child sk-bounce1"></div>
+            <div class="sk-child sk-bounce2"></div>
+            <div class="sk-child sk-bounce3"></div>
+    	</div>
+    </div>
+    <!--end loader -->
+    
+    <!--begin header -->
+    <header class="header">
+
+        <!--begin nav -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            
+            <!--begin container -->
+            <div class="container">
+        
+                <!--begin navbar -->
+                <div class="navbar-header">
+                    <button data-target="#navbar-collapse-02" data-toggle="collapse" class="navbar-toggle" type="button">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                                                                        
+                    <a href="index.html" class="navbar-brand brand scrool " style="font-size: 16px;">Premier Videos</a>
+                </div>
+                        
+                <div id="navbar-collapse-02" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">			      
+                        <li class="selected"><a href="index.html">Home</a></li>
+                        <li><a href="#about" class="scroll-link">About Film</a></li>
+                        <li><a href="cast.html">Cast & Crew</a></li>
+                        <li><a href="watch.html" class="purchase">Watch Now</a></li>
+                    </ul>
+                </div>
+                <!--end navbar -->
+                                    
+            </div>
+    		<!--end container -->
+            
+        </nav>
+    	<!--end nav -->
+        
+    </header>
+    <!--end header -->
+        
+    <!--begin watch-hero-section -->
+    <section id="hero-section" class="watch-hero-section">
+            
+        <!--begin container-->
+        <div class="container">
+
+            <!--begin row-->
+            <div class="row">
+            
+                <!--begin col-md-10-->
+                <div class="col-md-10 col-md-offset-1 text-center">
+                
+                    <span class="comic-text wow fadeIn" data-wow-delay="0.5s" style="color:#f4c430;">Now Streaming</span>
+                    
+                    <h2 class="section-title white wow bounceIn" data-wow-delay="1s">Watch The Film</h2>
+                    
+                    <p class="hero-text wow fadeInUp" data-wow-delay="2s" style="color:#fff;">Experience our exclusive short film from the comfort of your home.<br>Available now for online streaming in Full HD quality.</p>
+                    
+                </div>
+                <!--end col-md-10-->
+            
+            </div>
+            <!--end row-->
+            
+        </div>
+        <!--end container-->    
+        
+    </section>
+    <!--end watch-hero-section -->
+    
+    <!--begin main watch section-->
+    <section class="section-white">
+    
+      <!--begin container-->
+      <div class="container"> 
+
+            <!--begin watch notice-->
+            <div class="watch-notice wow fadeIn">
+                <i class="fa fa-info-circle"></i>
+                <span>This film is now available for streaming. Grab some popcorn and enjoy! 🍿</span>
+            </div>
+            <!--end watch notice-->
+
+            <!--begin row-->
+            <div class="row">
+            
+                <!--begin col-md-12-->
+                <div class="col-md-12 wow fadeIn">
+                    
+                    <!--begin video player container-->
+                    <div class="video-player-container">
+                        
+                        <!--begin video player wrapper-->
+                        <div class="video-player-wrapper">
+                            <video id="main-film-player" controls controlsList="nodownload" poster="images/placeholder.jpg">
+                                <source src="videos/film_antara_waktu_lampu_dan_mimpi.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <!--end video player wrapper-->
+                        
+                        <!--begin video controls info-->
+                        <div class="video-controls-info">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h3 style="color:#f4c430;margin-top:0;">ANTARA WAKTU, LAMPU DAN MIMPI</h3>
+                                    <p style="color:#ccc;margin:10px 0;">Sebuah Perjalanan Melintasi Waktu, Cahaya, dan Harapan</p>
+                                    <div style="margin:15px 0;">
+                                        <span style="color:#f4c430;margin-right:20px;"><i class="fa fa-clock-o"></i> 15 Menit</span>
+                                        <span style="color:#f4c430;margin-right:20px;"><i class="fa fa-film"></i> Drama / Eksperimental</span>
+                                        <span style="color:#f4c430;margin-right:20px;"><i class="fa fa-calendar"></i> 2025</span>
+                                        <span style="color:#f4c430;"><i class="fa fa-star"></i> 4.8/5.0</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <!--begin quality selector-->
+                                    <div class="quality-selector">
+                                        <p style="color:#ccc;margin:0 0 10px 0;font-size:12px;">QUALITY</p>
+                                        <button class="quality-btn active" data-quality="1080p">1080p HD</button>
+                                        <button class="quality-btn" data-quality="720p">720p</button>
+                                        <button class="quality-btn" data-quality="480p">480p</button>
+                                    </div>
+                                    <!--end quality selector-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--end video controls info-->
+                        
+                    </div>
+                    <!--end video player container-->
+                                            
+                </div>
+                <!--end col-md-12-->
+                 
+            </div>
+            <!--end row-->
+
+            <!--begin row - Film Info-->
+            <div class="row margin-top-40">
+                
+                <!--begin col-md-8-->
+                <div class="col-md-8 wow fadeInLeft">
+                    
+                    <h3 style="font-size:28px;font-weight:700;margin-bottom:20px;">Tentang Film Ini</h3>
+                    
+                    <p style="font-size:16px;line-height:1.8;margin-bottom:20px;">
+                        "Antara Waktu, Lampu dan Mimpi" adalah sebuah film pendek yang mengisahkan perjalanan emosional tentang harapan, waktu, dan cahaya yang menerangi kehidupan kita. Melalui 5 lokasi yang berbeda, film ini membawa penonton dalam perjalanan visual yang memukau, mengeksplorasi makna waktu dan mimpi dalam kehidupan manusia.
+                    </p>
+                    
+                    <p style="font-size:16px;line-height:1.8;margin-bottom:20px;">
+                        Dibuat dengan perhatian detail yang cermat, setiap frame menceritakan sebuah kisah. Dari sinematografi yang memukau hingga performa yang kuat, film ini merepresentasikan hasil dedikasi berbulan-bulan dan passion dari cast dan crew berbakat kami.
+                    </p>
+
+                    <div class="film-info-box">
+                        <h4 style="margin-top:0;font-size:20px;font-weight:700;">Detail Film</h4>
+                        
+                        <div class="film-info-item">
+                            <span style="font-weight:700;">Sutradara</span>
+                            <span>[Nama Sutradara]</span>
+                        </div>
+                        
+                        <div class="film-info-item">
+                            <span style="font-weight:700;">Penulis</span>
+                            <span>[Nama Penulis]</span>
+                        </div>
+                        
+                        <div class="film-info-item">
+                            <span style="font-weight:700;">Sinematografer</span>
+                            <span>[Nama DOP]</span>
+                        </div>
+                        
+                        <div class="film-info-item">
+                            <span style="font-weight:700;">Musik</span>
+                            <span>[Komposer]</span>
+                        </div>
+                        
+                        <div class="film-info-item">
+                            <span style="font-weight:700;">Durasi</span>
+                            <span>15 Menit</span>
+                        </div>
+                        
+                        <div class="film-info-item">
+                            <span style="font-weight:700;">Genre</span>
+                            <span>Drama, Eksperimental</span>
+                        </div>
+                        
+                        <div class="film-info-item">
+                            <span style="font-weight:700;">Bahasa</span>
+                            <span>Indonesia</span>
+                        </div>
+                        
+                        <div class="film-info-item">
+                            <span style="font-weight:700;">Tahun Rilis</span>
+                            <span>2025</span>
+                        </div>
+
+                        <div class="film-info-item">
+                            <span style="font-weight:700;">Rating</span>
+                            <span><span style="color:#f4c430;">★★★★★</span> 4.8/5.0</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:30px;">
+                        <a href="cast.html" class="btn btn-lg btn-yellow"><i class="fa fa-users"></i> MEET THE CAST</a>
+                        <a href="gallery.html" class="btn btn-lg btn-yellow" style="margin-left:10px;background:#333;"><i class="fa fa-camera"></i> VIEW GALLERY</a>
+                    </div>
+                    
+                </div>
+                <!--end col-md-8-->
+                
+                <!--begin col-md-4-->
+                <div class="col-md-4 wow fadeInRight">
+                    
+                    <!--begin watch stats-->
+                    <div style="background:#f8f8f8;padding:30px;border-radius:15px;margin-bottom:30px;">
+                        <h4 style="margin-top:0;font-size:20px;font-weight:700;text-align:center;">Statistik Film</h4>
+                        
+                        <div class="watch-stats">
+                            <div class="watch-stat-item">
+                                <span class="watch-stat-number">5K+</span>
+                                <span class="watch-stat-label">Penonton</span>
+                            </div>
+                            
+                            <div class="watch-stat-item">
+                                <span class="watch-stat-number">96%</span>
+                                <span class="watch-stat-label">Menyukai</span>
+                            </div>
+                            
+                            <div class="watch-stat-item">
+                                <span class="watch-stat-number">4.8</span>
+                                <span class="watch-stat-label">Rating</span>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top:30px;padding-top:30px;border-top:2px solid #e0e0e0;">
+                            <h5 style="font-size:16px;font-weight:700;margin-bottom:15px;text-align:center;">Rating Penonton</h5>
+                            <div style="text-align:center;margin-bottom:15px;">
+                                <div style="font-size:36px;color:#f4c430;">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                </div>
+                                <p style="margin:10px 0;color:#666;font-size:14px;">250+ Review</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end watch stats-->
+
+                    <!--begin share section-->
+                    <div class="share-section">
+                        <h4 style="margin-top:0;font-size:20px;font-weight:700;">Share This Film</h4>
+                        <p style="margin-bottom:20px;">Enjoyed the film? Share it with your friends!</p>
+                        
+                        <div class="social-share" style="justify-content:center;">
+                            <a href="#" class="share-facebook" title="Share on Facebook"><i class="fa fa-facebook"></i></a>
+                            <a href="#" class="share-twitter" title="Share on Twitter"><i class="fa fa-twitter"></i></a>
+                            <a href="#" class="share-whatsapp" title="Share on WhatsApp"><i class="fa fa-whatsapp"></i></a>
+                            <a href="#" title="Share via Email"><i class="fa fa-envelope"></i></a>
+                        </div>
+                    </div>
+                    <!--end share section-->
+
+                    <!--begin more content-->
+                    <div style="background:#1a1a1a;padding:30px;border-radius:15px;color:#fff;text-align:center;">
+                        <i class="fa fa-video-camera" style="font-size:48px;color:#f4c430;margin-bottom:15px;"></i>
+                        <h4 style="color:#f4c430;margin:15px 0;">Want More?</h4>
+                        <p style="margin-bottom:20px;">Check out behind-the-scenes footage and exclusive interviews.</p>
+                        <a href="trailer.html" class="btn btn-lg btn-yellow-small">WATCH EXTRAS</a>
+                    </div>
+                    <!--end more content-->
+                    
+                </div>
+                <!--end col-md-4-->
+                 
+            </div>
+            <!--end row-->
+            
+        </div>
+        <!--end container-->
+        
+    </section>
+    <!--end main watch section-->
+
+    <!--begin related content section-->
+    <section class="section-grey">
+    
+      <!--begin container-->
+      <div class="container"> 
+
+            <!--begin row-->
+            <div class="row margin-bottom-40">
+            
+                <!--begin col-md-12-->
+                <div class="col-md-12 text-center">
+                
+                    <div class="text-center">
+                    
+                        <span class="comic-text wow fadeIn">Explore More</span>
+                        
+                        <h2 class="section-title wow bounceIn">Related Content</h2>
+                        
+                    </div>
+            
+                </div>
+                <!--end col-md-12-->
+            
+            </div>
+            <!--end row-->
+
+            <!--begin row-->
+            <div class="row">
+                <!--begin col-md-4-->
+                <div class="col-md-4 wow fadeInUp" data-wow-delay="0.4s">
+                    
+                    <div class="blog-item">
+                        <div class="popup-wrapper">
+                            <img src="images/placeholder.jpg" class="width-100" alt="Cast">
+                        </div>
+                        
+                        <div class="blog-item-inner">
+                            <h3 class="blog-title"><a href="cast.html">Meet The Cast</a></h3>
+                            <p>Get to know the talented actors and crew members who brought this story to life.</p>
+                            <a href="cast.html" class="btn btn-lg btn-yellow-small">VIEW CAST</a>
+                        </div>
+                    </div>
+                                            
+                </div>
+                <!--end col-md-4-->
+                 
+            </div>
+            <!--end row-->
+            
+        </div>
+        <!--end container-->
+        
+    </section>
+    <!--end related content section-->
+        
+   <!--begin footer -->
+    <div class="footer">
+            
+        <!--begin container -->
+        <div class="container">
+        
+            <!--begin row -->
+            <div class="row footer-top">
+            
+                <!--begin col-md-4 -->
+                <div class="col-md-4 padding-bottom-50">
+                
+                	<h4>TENTANG FILM</h4>
+                    
+                    <p>"Antara Waktu, Lampu dan Mimpi" adalah sebuah perjalanan sinematik yang mengeksplorasi makna waktu, cahaya, dan harapan dalam kehidupan manusia.</p>
+                    
+                    <a href="watch.html" class="btn btn-lg btn-yellow-x-small">TONTON FILM</a>
+                    
+                </div>
+                <!--end col-md-4 -->
+                
+                <!--begin col-md-4 -->
+                <div class="col-md-4 padding-bottom-50">
+                
+                	<h4>PHOTO GALLERY</h4>
+                    
+                    <ul class="footer-gallery">
+                        
+                        <li class="popup-gallery">
+                            <a class="popup2" href="images/1.png">
+                            	<img src="images/1.png" alt="gallery" />
+                            </a>
+                        </li>
+                        
+                        <li class="popup-gallery">
+                            <a class="popup2" href="images/2.png">
+                            	<img src="images/2.png" alt="gallery" />
+                            </a>
+                        </li>
+                        
+                        <li class="popup-gallery">
+                            <a class="popup2" href="images/3.png">
+                            	<img src="images/3.png" alt="gallery" />
+                            </a>
+                        </li>
+                        
+                        <li class="popup-gallery">
+                            <a class="popup2" href="images/4.png">
+                            	<img src="images/4.png" alt="gallery" />
+                            </a>
+                        </li>
+                        
+                        <li class="popup-gallery">
+                            <a class="popup2" href="images/5.png">
+                            	<img src="images/5.png" alt="gallery" />
+                            </a>
+                        </li>
+                        
+                        
+					</ul>
+                    
+                </div>
+                <!--end col-md-4 -->
+                
+                <!--begin col-md-4 -->
+                <div class="col-md-4 padding-bottom-50">
+                
+                	<h4>PREMIERE INFO</h4>
+                    
+                    <p>Join us for the world premiere screening and be part of cinematic history.</p>
+                    
+                    <p class="contact_info"><i class="fa fa-map-marker"></i> NAB</p>
+                    
+                    <p class="contact_info"><i class="fa fa-calendar"></i> December 4, 2025 at 8:00 PM</p>
+                
+                    <p class="contact_info"><i class="fa fa-envelope-square"></i> <a href="mailto:info@moviepremiere.com">info@moviepremiere.com</a></p>
+
+                </div>
+                <!--end col-md-4 -->
+                
+            </div>
+            <!--end row -->
+            
+            <!--begin row -->
+            <div class="row">
+                
+                <!--begin footer-bottom -->
+                <div class="footer-bottom">
+                
+                    <!--begin col-md-5 -->
+                    <div class="col-md-5">
+                        
+                        <!--begin copyright -->
+                        <div class="copyright ">
+                            <p>© 2025 Movie Premiere. All Rights Reserved.</p>
+                            
+                        </div>
+                        <!--end copyright -->
+                       
+                    </div>
+                    <!--end col-md-5 -->
+                    
+                    <!--begin col-md-2 -->
+                    <div class="col-md-2 text-center">
+                    
+                    	<a href="#hero-section" class="scrool top-scroll"><i class="fa fa-angle-double-up"></i></a>
+                        
+                    </div>
+                    <!--end col-md-2 -->
+                    
+                        
+                </div>
+                <!--end footer-bottom -->
+                        
+            </div>
+            <!--end row -->
+            
+        </div>
+        <!--end container -->
+                
+    </div>
+    <!--end footer -->
+    
+
+    <!-- Load JS here for greater good =============================-->
+    <script src="js/lazy-load.js"></script>
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js" defer></script>
+    <script src="js/jquery.magnific-popup.min.js" defer></script>
+    <script src="js/jquery.nav.js" defer></script>
+    <script src="js/jquery.scrollTo-min.js" defer></script>
+    <script src="js/SmoothScroll.js" defer></script>
+    <script src="js/wow.js" defer></script>
+    
+    <!-- begin custom script-->
+    <script src="js/custom.js" defer></script>
+    <script src="js/plugins.js" defer></script>
+    
+    <!-- Custom Film JavaScript -->
+    <script src="js/film-custom.js" defer></script>
+    
+    <!-- Navigation Handler -->
+    <script src="js/navigation.js" defer></script>
+
+    <!-- Watch Page Custom Script -->
+    <script>
+        $(document).ready(function() {
+            // Quality selector
+            $('.quality-btn').on('click', function() {
+                $('.quality-btn').removeClass('active');
+                $(this).addClass('active');
+                
+                var quality = $(this).data('quality');
+                console.log('Quality changed to: ' + quality);
+                // Here you can implement quality switching logic
+                // For example, change video source based on quality
+            });
+
+            // Track video play
+            $('#main-film-player').on('play', function() {
+                console.log('Film started playing');
+                // You can add analytics tracking here
+            });
+
+            // Track video completion
+            $('#main-film-player').on('ended', function() {
+                console.log('Film finished');
+                // Show thank you message or related content
+                alert('Thank you for watching! Check out our gallery and cast pages for more content.');
+            });
+        });
+    </script>
+    
+</body></html>
+
